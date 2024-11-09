@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bio Links</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --input-bg: #ffffff;
+            --card-bg: #ffffff;
+            --button-bg: #007bff;
+            --button-text: #ffffff;
+            --button-hover: #0056b3;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1d21;
+            --text-color: #ffffff;
+            --input-bg: #2a2e32;
+            --card-bg: #2a2e32;
+            --button-bg: #007bff;
+            --button-text: #ffffff;
+            --button-hover: #0056b3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--text-color);
+            font-size: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: var(--button-hover);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .links-container {
+            margin-top: 2rem;
+        }
+
+        .link-item {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .link-item button {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .profile-section {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            background-color: #e1e1e1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            color: #555;
+        }
+
+        .hidden-url {
+            display: none;
+        }
+
+        /* Custom styles for Toastify */
+        .toastify {
+            width: 90% !important;
+            max-width: none !important;
+            text-align: center;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .button-group .btn {
+            flex: 1;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>My Bio Links</h1>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-picture" id="profilePicture">
+                <i class="fas fa-user"></i>
+            </div>
+            <h2 id="profileName">Your Name</h2>
+            <p id="profileBio">Your bio goes here</p>
+        </div>
+
+        <div class="form-group">
+            <label for="platform">Platform</label>
+            <select id="platform" required>
+                <option value="">Select a platform</option>
+                <option value="facebook">Facebook</option>
+                <option value="x">X</option>
+                <option value="instagram">Instagram</option>
+                <option value="linkedin">LinkedIn</option>
+                <option value="github">GitHub</option>
+                <option value="youtube">YouTube</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="otherPlatformGroup" style="display: none;">
+            <label for="otherPlatform">Other Platform</label>
+            <input type="text" id="otherPlatform" placeholder="Enter platform name">
+        </div>
+
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="url" id="url" placeholder="e.g., https://example.com/yourprofile" required>
+        </div>
+
+        <div class="button-group">
+            <button class="btn" id="addLink">Add Link</button>
+            <button class="btn" id="copyShareable">Copy Link</button>
+            <button class="btn" id="previewMode">Preview Mode</button>
+        </div>
+
+        <div id="linksContainer" class="links-container"></div>
+
+        <div class="footer">
+            <p>Share your bio links with others!</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script>
+        // Theme handling
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.documentElement;
+        
+        function toggleTheme() {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeToggle.textContent = isDark ? '🌙' : '☀️';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+        themeToggle.addEventListener('click', toggleTheme);
+
+        // Links handling
+        const links = [];
+        const platformSelect = document.getElementById('platform');
+        const otherPlatformGroup = document.getElementById('otherPlatformGroup');
+        const otherPlatformInput = document.getElementById('otherPlatform');
+        const urlInput = document.getElementById('url');
+        const addLinkBtn = document.getElementById('addLink');
+        const linksContainer = document.getElementById('linksContainer');
+        const copyShareableBtn = document.getElementById('copyShareable');
+        const previewModeBtn = document.getElementById('previewMode');
+
+        platformSelect.addEventListener('change', function() {
+            if (this.value === 'other') {
+                otherPlatformGroup.style.display = 'block';
+            } else {
+                otherPlatformGroup.style.display = 'none';
+            }
+        });
+
+        function addLink() {
+            let platform = platformSelect.value;
+            if (platform === 'other') {
+                platform = otherPlatformInput.value.trim();
+            }
+            let url = urlInput.value.trim();
+
+            if (!platform || !url) {
+                showToast('Please fill in all fields', 'error');
+                return;
+            }
+
+            // Automatic URL validation
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+
+            links.push({ platform, url });
+            updateLinksDisplay();
+            saveLinks();
+            
+            // Clear inputs
+            platformSelect.value = '';
+            otherPlatformInput.value = '';
+            urlInput.value = '';
+            otherPlatformGroup.style.display = 'none';
+
+            showToast('Link added successfully!', 'success');
+        }
+
+        function updateLinksDisplay() {
+            linksContainer.innerHTML = '';
+            links.forEach((link, index) => {
+                const linkElement = document.createElement('div');
+                linkElement.className = 'link-item';
+                linkElement.innerHTML = `
+                    <div>
+                        <i class="${getPlatformIcon(link.platform)}"></i>
+                        <strong>${link.platform}</strong>
+                        <span class="hidden-url">${link.url}</span>
+                    </div>
+                    <div>
+                        <button onclick="editLink(${index})"><i class="fas fa-edit"></i></button>
+                        <button onclick="confirmDelete(${index})"><i class="fas fa-trash"></i></button>
+                    </div>
+                `;
+                linkElement.querySelector('strong').addEventListener('click', () => {
+                    window.open(link.url, '_blank');
+                });
+                linksContainer.appendChild(linkElement);
+            });
+        }
+
+        function getPlatformIcon(platform) {
+            const iconMap = {
+                'facebook': 'fab fa-facebook',
+                'x': 'fab fa-twitter',
+                'instagram': 'fab fa-instagram',
+                'linkedin': 'fab fa-linkedin',
+                'github': 'fab fa-github',
+                'youtube': 'fab fa-youtube'
+            };
+            return iconMap[platform.toLowerCase()] || 'fas fa-link';
+        }
+
+        function editLink(index) {
+            const link = links[index];
+            platformSelect.value = link.platform;
+            urlInput.value = link.url;
+            if (platformSelect.value === 'other') {
+                otherPlatformGroup.style.display = 'block';
+                otherPlatformInput.value = link.platform;
+            }
+            links.splice(index, 1);
+            updateLinksDisplay();
+            saveLinks();
+            showToast('Edit the link and click "Add Link"', 'info');
+        }
+
+        function confirmDelete(index) {
+            if (confirm('Are you sure you want to delete this link?')) {
+                removeLink(index);
+            }
+        }
+
+        function removeLink(index) {
+            links.splice(index, 1);
+            updateLinksDisplay();
+            saveLinks();
+            showToast('Link removed', 'info');
+        }
+
+        function saveLinks() {
+            localStorage.setItem('bioLinks', JSON.stringify(links));
+        }
+
+        function loadLinks() {
+            const savedLinks = localStorage.getItem('bioLinks');
+            if (savedLinks) {
+                links.push(...JSON.parse(savedLinks));
+                updateLinksDisplay();
+            }
+        }
+
+        function copyShareableLink() {
+            const shareableData = btoa(JSON.stringify({
+                profile: {
+                    name: document.getElementById('profileName').textContent,
+                    bio: document.getElementById('profileBio').textContent,
+                    picture: document.getElementById('profilePicture').innerHTML
+                },
+                links: links
+            }));
+            const shareableUrl = `${window.location.origin}${window.location.pathname}?data=${shareableData}`;
+            
+            navigator.clipboard.writeText(shareableUrl)
+                .then(() => showToast('Link copied to clipboard!', 'success'))
+                .catch(() => {
+                    // Fallback for browsers that don't support clipboard API
+                    const textarea = document.createElement('textarea');
+                    textarea.value = shareableUrl;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    showToast('Link copied to clipboard!', 'success');
+                });
+        }
+
+        function togglePreviewMode() {
+            const isPreview = document.body.classList.toggle('preview-mode');
+            if (isPreview) {
+                document.querySelectorAll('.form-group, #addLink').forEach(el => el.style.display = 'none');
+                previewModeBtn.textContent = 'Exit Preview';
+            } else {
+                document.querySelectorAll('.form-group, #addLink').forEach(el => el.style.display = 'block');
+                previewModeBtn.textContent = 'Preview Mode';
+            }
+        }
+
+        function showToast(message, type) {
+            Toastify({
+                text: message,
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "center",
+                backgroundColor: type === 'error' ? "#ff6b6b" : 
+                                type === 'success' ? "#51cf66" : 
+                                type === 'info' ? "#339af0" : "#adb5bd",
+                className: "toastify-custom",
+            }).showToast();
+        }
+
+        // Event listeners
+        addLinkBtn.addEventListener('click', addLink);
+        copyShareableBtn.addEventListener('click', copyShareableLink);
+        previewModeBtn.addEventListener('click', togglePreviewMode);
+
+        // Tooltip timeout
+        document.querySelectorAll('.tooltip').forEach(tooltip => {
+            let timeoutId;
+            tooltip.addEventListener('mouseenter', () => {
+                clearTimeout(timeoutId);
+                tooltip.querySelector('.tooltiptext').style.visibility = 'visible';
+                tooltip.querySelector('.tooltiptext').style.opacity = '1';
+                timeoutId = setTimeout(() => {
+                    tooltip.querySelector('.tooltiptext').style.visibility = 'hidden';
+                    tooltip.querySelector('.tooltiptext').style.opacity = '0';
+                }, 1500);
+            });
+            tooltip.addEventListener('mouseleave', () => {
+                clearTimeout(timeoutId);
+                tooltip.querySelector('.tooltiptext').style.visibility = 'hidden';
+                tooltip.querySelector('.tooltiptext').style.opacity = '0';
+            });
+        });
+
+        // Load saved data on startup
+        loadLinks();
+
+        // Handle shared data from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sharedData = urlParams.get('data');
+        if (sharedData) {
+            try {
+                const decodedData = JSON.parse(atob(sharedData));
+                links.push(...decodedData.links);
+                updateLinksDisplay();
+                document.getElementById('profileName').textContent = decodedData.profile.name;
+                document.getElementById('profileBio').textContent = decodedData.profile.bio;
+                document.getElementById('profilePicture').innerHTML = decodedData.profile.picture;
+                togglePreviewMode();
+            } catch (e) {
+                console.error('Invalid shared data');
+                showToast('Invalid shared data', 'error');
+            }
+        }
+    </script>
+</body>
+</html>
